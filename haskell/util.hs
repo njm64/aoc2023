@@ -3,8 +3,6 @@ module Util where
 import qualified Data.List as List
 import qualified Data.Text as Text
 
-(|>) x f = f x
-
 -- Split a list exactly once at the given delimiter
 splitPair :: Eq a => a -> [a] -> ([a], [a])
 splitPair c s = case break (== c) s of
@@ -47,3 +45,16 @@ position s substr =
           | substr `List.isPrefixOf` t = acc
           | otherwise = step (tail t) (acc + 1)
 
+-- Like Data.List.groupBy, but compare with the nearest
+-- neighbour, instead of the last element in the group.
+groupBy' :: (a -> a -> Bool) -> [a] -> [[a]]
+groupBy' f [] = []
+groupBy' f (x:xs) = step xs [[x]]
+  where step [] acc = reverse . map reverse $ acc
+        step (x:xs) (a:as) =
+          if f (head a) x then step xs ((x:a):as)
+          else step xs ([x]:a:as)
+
+groupOn :: Eq a => (t -> a) -> [t] -> [[t]]
+groupOn f = groupBy' (\a b -> f a == f b)
+  
