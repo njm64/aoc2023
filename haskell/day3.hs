@@ -36,6 +36,7 @@ isEnginePart :: EngineMap -> NumberDef -> Bool
 isEnginePart m n = any (isSym . (m !)) $ neighbours m n
   where isSym c = not (isDigit c) && c /= '.'
   
+gearPositions :: EngineMap -> NumberDef -> [(Coord, NumberDef)]
 gearPositions m n = [(pos, n) | pos <- neighbours m n, m ! pos == '*']
   
 groupByGears :: EngineMap -> [NumberDef] -> [[NumberDef]]
@@ -45,11 +46,7 @@ groupByGears m n = map (map snd) . filter (\g -> length g == 2) .
 gearRatio :: [NumberDef] -> Int
 gearRatio = product . map (read . snd) 
   
-part1 :: EngineMap -> Int
 part1 m = sum . map (read . snd) . filter (isEnginePart m) $ numbers m
-
-part2 :: EngineMap -> Int
 part2 m = sum . map gearRatio . groupByGears m $ numbers m
-
 run = Aoc.run 3 parse part1 part2
 
