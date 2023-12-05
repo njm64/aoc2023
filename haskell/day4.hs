@@ -1,5 +1,4 @@
 module Day4 where
-import Data.Char
 import Data.List
 import Util
 import qualified Aoc
