@@ -7,7 +7,7 @@ type Bid = Int
 type Card = Char
 type Hand = ([Card], Bid)
   
-data Label = HighCard | OnePair | TwoPair | ThreeOfAKind |
+data HandType = HighCard | OnePair | TwoPair | ThreeOfAKind |
              FullHouse | FourOfAKind | FiveOfAKind
              deriving (Eq, Ord, Show)
   
@@ -33,7 +33,7 @@ cardValue2 :: Card -> Int
 cardValue2 'J' = 1
 cardValue2 c = cardValue c
 
-handType :: [Card] -> Label
+handType :: [Card] -> HandType
 handType cs = case sort . map length . group . sort $ cs of
   [5] -> FiveOfAKind
   [1,4] -> FourOfAKind
@@ -44,7 +44,7 @@ handType cs = case sort . map length . group . sort $ cs of
   [1,1,1,1,1] -> HighCard
   _ -> error "Invalid hand"
 
-handType2 :: [Card] -> Label
+handType2 :: [Card] -> HandType
 handType2 cs = case sort . map length . group . sort $ filter (/= 'J') cs of
   -- 1 Joker
   [4] -> FiveOfAKind
