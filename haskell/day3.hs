@@ -15,7 +15,7 @@ parse lines =
   let height = length lines in
   let coords = [(x,y) | y <- [1..height], x <- [1..width]] in
   let cells = concat lines in 
-  array ((1,1), (height, width)) (zip coords cells)
+  array ((1,1), (width, height)) (zip coords cells)
   
 neighbours :: EngineMap -> NumberDef -> [Coord]
 neighbours m ((x, y), num) =
