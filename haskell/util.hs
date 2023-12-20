@@ -2,6 +2,7 @@ module Util where
 
 import qualified Data.List as List
 import qualified Data.Text as Text
+import Data.Array as Array
 
 -- Split a list exactly once at the given delimiter
 splitPair :: Eq a => a -> [a] -> ([a], [a])
@@ -58,3 +59,11 @@ groupBy' f (x:xs) = step xs [[x]]
 groupOn :: Eq a => (t -> a) -> [t] -> [[t]]
 groupOn f = groupBy' (\a b -> f a == f b)
   
+arrayRows :: Array.Array (Int, Int) a -> [[a]]
+arrayRows a =
+  [row y | y <- [y1..y2]]
+  where row y = [a ! (x, y) | x <- [x1..x2]]
+        ((x1, y1), (x2, y2)) = bounds a
+
+showCharArray :: Array.Array (Int, Int) Char -> String
+showCharArray = unlines . arrayRows
