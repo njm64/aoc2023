@@ -67,3 +67,10 @@ arrayRows a =
 
 showCharArray :: Array.Array (Int, Int) Char -> String
 showCharArray = unlines . arrayRows
+
+-- Apply a function to the nth element of a list
+updateNth :: (a -> a) -> Int -> [a] -> [a]
+updateNth f _ [] = []
+updateNth f 0 (x:xs) = f x : updateNth f (-1) xs
+updateNth f i (x:xs) = x : updateNth f (i-1) xs
+  

@@ -16,7 +16,7 @@ import qualified Day15
 import qualified Day16
 import qualified Day17
 import qualified Day18
-
+import qualified Day19
 
 
 runDay :: Int -> IO ()
@@ -38,7 +38,8 @@ runDay 15 = Day15.run
 runDay 16 = Day16.run
 runDay 17 = Day17.run
 runDay 18 = Day18.run
+runDay 19 = Day19.run
 
 main :: IO ()
 main = do
-  runDay 18
+  runDay 19
