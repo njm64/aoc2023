@@ -1,4 +1,7 @@
-import qualified Day1
+import System.Environment
+import Text.Read
+import Data.Maybe
+import qualified Day1 
 import qualified Day2
 import qualified Day3
 import qualified Day4
@@ -17,29 +20,28 @@ import qualified Day16
 import qualified Day17
 import qualified Day18
 import qualified Day19
+import qualified Day20
 
-
-runDay :: Int -> IO ()
-runDay 1 = Day1.run
-runDay 2 = Day2.run
-runDay 3 = Day3.run
-runDay 4 = Day4.run
-runDay 5 = Day5.run
-runDay 6 = Day6.run
-runDay 7 = Day7.run
-runDay 8 = Day8.run
-runDay 9 = Day9.run
-runDay 10 = Day10.run
-runDay 11 = Day11.run
-runDay 12 = Day12.run
-runDay 13 = Day13.run
-runDay 14 = Day14.run
-runDay 15 = Day15.run
-runDay 16 = Day16.run
-runDay 17 = Day17.run
-runDay 18 = Day18.run
-runDay 19 = Day19.run
-
+runners = [
+  Day1.run, Day2.run, Day3.run, Day4.run, Day5.run,
+  Day6.run, Day7.run, Day8.run, Day9.run, Day10.run,
+  Day11.run, Day12.run, Day13.run, Day14.run, Day15.run,
+  Day16.run, Day17.run, Day18.run, Day19.run, Day20.run]
+  
+parseInt :: String -> Maybe Int
+parseInt s = case reads s of
+  [(n, "")] -> Just n
+  _ -> Nothing
+  
+runnerForDay :: Int -> Maybe (IO ())
+runnerForDay n = listToMaybe $ drop (n - 1) runners
+  
 main :: IO ()
 main = do
-  runDay 19
+  args <- getArgs
+  if null args then
+    sequence_ runners
+  else 
+    case parseInt (head args) >>= runnerForDay of
+      Just r -> r
+      _ -> putStrLn "Usage: aoc <day>"
