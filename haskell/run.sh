@@ -1,4 +1,0 @@
-#!/bin/sh
-ghc -rtsopts -O -outputdir bin *.hs -o bin/aoc
-bin/aoc 
-
