@@ -1,4 +1,4 @@
 #!/bin/sh
-ghc -rtsopts -O *.hs
-./main 
+ghc -rtsopts -O -outputdir bin *.hs -o bin/aoc
+bin/aoc 
 
