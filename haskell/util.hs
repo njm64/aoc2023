@@ -2,7 +2,7 @@ module Util where
 
 import qualified Data.List as List
 import qualified Data.Text as Text
-import Data.Array as Array
+import Data.Array
 
 -- Split a list exactly once at the given delimiter
 splitPair :: Eq a => a -> [a] -> ([a], [a])
@@ -59,13 +59,13 @@ groupBy' f (x:xs) = step xs [[x]]
 groupOn :: Eq a => (t -> a) -> [t] -> [[t]]
 groupOn f = groupBy' (\a b -> f a == f b)
   
-arrayRows :: Array.Array (Int, Int) a -> [[a]]
+arrayRows :: Array (Int, Int) a -> [[a]]
 arrayRows a =
   [row y | y <- [y1..y2]]
   where row y = [a ! (x, y) | x <- [x1..x2]]
         ((x1, y1), (x2, y2)) = bounds a
 
-showCharArray :: Array.Array (Int, Int) Char -> String
+showCharArray :: Array (Int, Int) Char -> String
 showCharArray = unlines . arrayRows
 
 -- Apply a function to the nth element of a list
@@ -74,3 +74,6 @@ updateNth f _ [] = []
 updateNth f 0 (x:xs) = f x : updateNth f (-1) xs
 updateNth f i (x:xs) = x : updateNth f (i-1) xs
   
+-- Create an array with a default value in every cell
+arrayWithDefault :: Ix i => (i, i) -> a -> Array i a
+arrayWithDefault b def = array b [(i, def) | i <- range b]
